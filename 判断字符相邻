@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <math.h> 
+int main() {
+	char a,b,c;
+	scanf("%c%c%c",&a,&b,&c);
+	if (abs(b-a)==1 && abs(c-b)==1 && ((a>='a' && a<='z' && c>='a' && c<='z' && b>='a' && b<='z' )||(a>='A' && a<='Z' && b>='A' && b<='Z' && c>='A' && c<='Z'))) {
+		printf("Yes");
+	} else {
+		printf("No");
+	}
+}
