@@ -1,0 +1,21 @@
+#include <stdio.h> 
+int main() {
+	int n,i,j;			//n为被拆分的数 
+    int sum = 0;	//sum用于储存各位相加的和 
+    int a = 0;		//a用于储存位数,即a等于位数减一 
+    scanf("%d",&n);
+    int num[5];
+    for (i = 0; i < 5; i++) {		//%10获得个位,/10使数右移一位 
+        num[i] = n%10;
+        if ((n/10) != 0) {
+            n /= 10;
+        } else {
+            a = i;
+            break;
+        }
+    }
+    for (j = 0; j <= a; j++) {		//把数组中的元素相加 
+        sum += num[j];
+    }
+    printf("%d",sum);
+}
