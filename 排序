@@ -1,0 +1,27 @@
+#include <stdio.h>
+int main() {
+    int n;
+    int i;
+    int a,b;
+    printf("请输入数字的个数 :\n");
+    scanf("%d",&n);
+    int arr[n];
+    printf("请依次输入数字 :\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d",&arr[i]);
+    }
+    for (a = 0; a < n; ++a) {
+        for (b = 0; b < n; ++b) {
+            if (a<b && arr[a]>arr[b]) {
+                arr[a] += arr[b];
+                arr[b] = arr[a] - arr[b];
+                arr[a] = arr[a] - arr[b];
+            }
+        }
+    }
+    printf("从小到大排序结果 :\n");
+    for (i = 0; i < n; ++i) {
+        printf("%d ",arr[i]);
+    }
+}
+
