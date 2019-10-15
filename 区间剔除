@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int L = sc.nextInt();
+        int M = sc.nextInt();
+        int[][] arr = new int[M][2];
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < 2; j++) {
+                arr[i][j] = sc.nextInt();
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i <= L; i++) {
+            int tem = i;
+            for (int j = 0; j < M; j++) {
+                if (tem >= arr[j][0] && tem <= arr[j][1]) {
+                    sum++;
+                    break;
+                }
+            }
+        }
+        System.out.println(L+1-sum);
+    }
+}
