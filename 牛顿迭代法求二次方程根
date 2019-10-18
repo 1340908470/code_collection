@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class demo1 {
+    public static void main(String[] args) {
+        demo1 ca = new demo1();
+        double x = 0.0;
+        int a,b,c;
+        Scanner sc = new Scanner(System.in);
+        x = sc.nextDouble();
+        a = sc.nextInt();
+        b = sc.nextInt();
+        c = sc.nextInt();
+        for (int i = 0; i < 99; i++) {
+            x += demo1.calculate(x,a,b,c);
+        }
+        System.out.println(x);
+    }
+    public static double calculate(double x, int a, int b, int c) {
+        double ans = (a*x*x+b*x+c)/(2*a*x+b);
+        return ans;
+    }
+}
