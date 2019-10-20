@@ -1,0 +1,13 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String string = sc.next();      //输入一个字符串
+        StringBuilder stringBuilder = new StringBuilder(string);        //由于String类中字符串不可修改,故用StringBuilder类进行修改
+        stringBuilder.setCharAt(0,'A');         //将字符串中索引为0的元素修改为'A'
+        string = stringBuilder.toString();          //将修改过后的字符串重新赋给string
+        System.out.println(string);         //输出string
+        
+    }
+}
