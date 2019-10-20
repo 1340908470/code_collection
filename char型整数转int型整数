@@ -1,0 +1,10 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        char a = sc.next().charAt(0);         //输入一个整数,其被保存为char类型的变量a
+        int x = a - '0';                      //x为该整数转换为int类型的变量
+        System.out.println(x);
+    }
+}
