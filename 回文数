@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    scanf("%d",&n);
+    int arr[10];
+    int count = 0;
+    for (int i = 0; i < 10; ++i) {
+        arr[i] = n%10;
+        count++;
+        if (n/10 == 0) {
+            break;
+        } else {
+            n /= 10;
+        }
+    }
+    int tem = 0;
+    for (int j = 0; j < count; ++j) {
+        if (arr[j] != arr[count-j-1]) {
+            tem++;
+            break;
+        }
+    }
+    switch (tem) {
+        case 0:printf("Yes");
+            break;
+        case 1:printf("No");
+            break;
+    }
+}
