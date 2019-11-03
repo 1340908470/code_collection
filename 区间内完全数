@@ -1,0 +1,38 @@
+#include <stdio.h>
+_Bool isPerfect(int);
+void printPerfect(int);
+
+int main() {
+    int a,b;
+    scanf("%d%d",&a,&b);
+    int count = 0;
+    for (int i = a; i <= b; ++i) {
+        if (isPerfect(i)) {
+            printPerfect(i);
+            count++;
+        }
+    }
+    printf("The total number is %d.",count);
+}
+
+void printPerfect(int x) {
+    printf("%d=1",x);
+    for (int i = 2; i < x; ++i) {
+        if (x%i == 0) {
+            printf("+%d",i);
+        }
+    }
+    printf("\n");
+}
+
+_Bool isPerfect(int x) {
+    _Bool ans;
+    int sum = 0;
+    for (int i = 1; i < x; ++i) {
+        if (x%i == 0) {
+            sum += i;
+        }
+    }
+    ans = (x == sum);
+    return ans;
+}
