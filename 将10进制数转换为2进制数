@@ -1,0 +1,15 @@
+//将10进制数转换为2进制数输出
+#include <stdio.h>
+
+int calculate(int x) {
+    if (x != 0) {
+        calculate(x/2);
+        printf("%d",x%2);
+    }
+}
+
+int main() {
+    int n;
+    scanf("%d",&n);
+    calculate(n);
+}
