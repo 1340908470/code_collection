@@ -1,0 +1,27 @@
+#include <stdio.h>
+int arr[1001];
+
+int calculate(int x) {
+    if (x == 1) {
+        return 1;
+    }
+    if (arr[x]) {
+        return arr[x];
+    }
+    int sum = 1;
+    for (int i = 1; i <= x/2; ++i) {
+        sum += calculate(i);
+    }
+    arr[x] = sum;
+    return sum;
+}
+
+int main() {
+    int n;
+    scanf("%d",&n);
+    printf("%d",calculate(n));
+}
+/*
+要点:
+  if(arr[x]){...}表示判断数组中索引为x的位置是否已被赋值
+*/
