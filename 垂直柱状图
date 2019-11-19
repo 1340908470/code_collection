@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int arr[26];
+    for (int j = 0; j < 26; ++j) {
+        arr[j] = 0;
+    }
+    char line1[100];
+    char line2[100];
+    char line3[100];
+    char line4[100];
+    gets(line1);
+    gets(line2);
+    gets(line3);
+    gets(line4);
+    for (int i = 0; i < strlen(line1); ++i) {
+        if (line1[i] >= 'A' && line1[i] <= 'Z') {
+            arr[line1[i]-'A'] += 1;
+        }
+    }
+    for (int i = 0; i < strlen(line2); ++i) {
+        if (line2[i] >= 'A' && line2[i] <= 'Z') {
+            arr[line2[i]-'A'] += 1;
+        }
+    }
+    for (int i = 0; i < strlen(line3); ++i) {
+        if (line3[i] >= 'A' && line3[i] <= 'Z') {
+            arr[line3[i]-'A'] += 1;
+        }
+    }
+    for (int i = 0; i < strlen(line4); ++i) {
+        if (line4[i] >= 'A' && line4[i] <= 'Z') {
+            arr[line4[i]-'A'] += 1;
+        }
+    }
+    int max = 0;
+    for (int i = 0; i < 26; ++i) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    for (int i = max; i > 0; --i) {
+        for (int j = 0; j < 26; ++j) {
+            if (j == 25) {
+                if (arr[j] == i) {
+                    printf("*");
+                    arr[j]--;
+                } else {
+                    printf(" ");
+                }
+            } else {
+                if (arr[j] == i) {
+                    printf("* ");
+                    arr[j]--;
+                } else {
+                    printf("  ");
+                }
+            }
+
+        }
+        printf("\n");
+    }
+    for (int i = 0; i < 26; ++i) {
+        printf("%c ",'A'+i);
+    }
+}
