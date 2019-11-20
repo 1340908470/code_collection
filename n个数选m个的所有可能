@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int n,m;
+
+void calculate(int arr[],int stand[][2],int level,int start) {
+    if (level == m) {
+        for (int i = 0; i < m; ++i) {
+            printf("%d",arr[i]);
+        }
+        printf("\n");
+    } else {
+        for (int i = start; i < n; ++i) {
+            if (stand[i][1]==1) { continue;}
+            arr[level] = stand[i][0];
+            start = i;
+            stand[i][1] = 1;
+            calculate(arr,stand,level+1,start);
+            stand[i][1] = 0;
+        }
+    }
+}
+
+int main(){
+    scanf("%d%d",&n,&m);
+    int stand[n][2];
+    for (int i = 0; i < n; ++i) {
+        stand[i][0] = i;
+        stand[i][1] = 0;
+    }
+    int arr[m];
+    int level = 0;
+    calculate(arr,stand,level,0);
+}
