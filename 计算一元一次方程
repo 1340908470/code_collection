@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <math.h>
+
+int cal(int num[],int size) {
+    int ans = 0;
+    int i = 0;
+    while (size != 0) {
+        ans += pow(10,size-1)*num[i];
+        i++;
+        size--;
+    }
+    return ans;
+}
+
+int main() {
+    int a = 0;  //a表示未知数前的系数
+    char x;     //x用于存储未知数符号
+    int n = 0;  //n表示常数项
+    char c;     //c用于储存读入的字符
+    int i = 0;  //i计数器用于判断未知数前有没有省略1
+    int num[10] = {};   //num用于存储每一位数字
+    int size = 0;       //size表示位数
+    int nu = 0;         //nu表示数字
+    int f = 1;          //f表示符号
+
+    while ((c=getchar()) != '=') {
+        if (c>='0' && c<='9') {
+            i++;
+            size++;
+            num[size-1] = c - '0';
+        } else {
+            nu = cal(num,size);
+            for (int j = 0; j < 10; ++j) {
+                num[j] = 0;
+            }
+            size = 0;
+            if (c>='a' && c<='z') {
+                x = c;
+                if (i==0) {
+                    nu = 1;
+                }
+                a += f * nu;
+                i = 0;
+                nu = 0;
+            }
+            if (nu != 0) {
+                n += nu * f;
+            }
+            if (c=='-') {
+                f = -1;
+            }
+            if (c=='+') {
+                f = 1;
+            }
+        }
+    }
+    //重新初始化
+    if (num[0] != 0) {
+        n += cal(num,size) * f;
+    }
+    f = -1;
+    i = 0;
+    size = 0;
+    for (int j = 0; j < 10; ++j) {
+        num[j] = 0;
+    }
+    while ((c=getchar()) != '\n') {
+        if (c=='=') {
+            continue;
+        }
+        if (c>='0' && c<='9') {
+            i++;
+            size++;
+            num[size-1] = c - '0';
+        } else {
+            nu = cal(num,size);
+            for (int j = 0; j < 10; ++j) {
+                num[j] = 0;
+            }
+            size = 0;
+            if (c>='a' && c<='z') {
+                x = c;
+                if (i==0) {
+                    nu = 1;
+                }
+                a += f * nu;
+                i = 0;
+                nu = 0;
+            }
+            if (nu != 0) {
+                n += nu * f;
+            }
+            if (c=='-') {
+                f = 1;
+            }
+            if (c=='+') {
+                f = -1;
+            }
+        }
+    }
+    if (num[0] != 0) {
+        n += cal(num,size) * f;
+    }
+    double ans = (-1)*((double)n/a);
+    printf("%c=%.3lf",x,ans);
+
+}
