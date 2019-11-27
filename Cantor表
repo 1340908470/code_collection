@@ -1,0 +1,24 @@
+#include <stdio.h>
+int main() {
+    int n;
+    scanf("%d", &n);
+    int line;
+    int a, b;
+    for (int i = 0; i < 999999; i++) {
+        if ((int) (0.5 * i * (i + 1)) <= n && (int) (0.5 * ((i + 1) * (i + 2))) >= n) {
+            line = i;
+            break;
+        }
+    }
+    if ((line+1) % 2 == 0) {
+        int i = n - (0.5 * (line + 1) * line);
+        a = i;
+        b = line - i + 2;
+    } else {
+        int i = n - (0.5 * (line + 1) * line);
+        b = i;
+        a = line - i + 2;
+    }
+    printf("%d/%d",a,b);
+
+}
