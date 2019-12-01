@@ -1,0 +1,40 @@
+#include <stdio.h>
+/*
+ 0 - 6
+ 1 - 2
+ 2 - 5
+ 3 - 5
+ 4 - 4
+ 5 - 5
+ 6 - 6
+ 7 - 3
+ 8 - 7
+ 9 - 6
+*/
+int main() {
+    int n;
+    scanf("%d", &n);
+    if (n <= 4) {
+        printf("0");
+    } else {
+        n -= 4;
+        int a[10] = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+        int b[3000] = {6};
+        int count = 0;
+        for (int j = 0; j < 3000; ++j) {
+            int i = j;
+            while (i!=0) {
+                b[j] += a[i % 10];
+                i /= 10;
+            }
+        }
+        for (int k = 0; k < 1500; ++k) {
+            for (int i = 0; i < 1500; ++i) {
+                if (b[i] + b[k] + b[i + k] == n) {
+                    count++;
+                }
+            }
+        }
+        printf("%d", count);
+    }
+}
