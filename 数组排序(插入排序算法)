@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 //行数i,起始0,结束i;
 
 void f(int a[],int j,int n) {
