@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+//行数i,起始0,结束i;
+
+void f(int a[],int j,int n) {
+	for (int i=0;i<j;i++) {
+		if (a[i]>a[j]) {
+			int tem = a[j];
+			for (int k=j-1;k>=i;k--) {
+				a[k+1] = a[k];
+			}
+			a[i] = tem;
+		}
+	}
+	for (int i = 0;i<n;i++) {
+		printf("%d ",a[i]);
+	}
+	printf("\n");
+} 
+
+int main() {
+	int n;
+	scanf("%d",&n);
+	int a[n];
+	char c;
+	int i = 0;	
+	for (int i =0;i<n;i++) {
+		scanf("%d",&a[i]);
+	}
+	for (int j=1;j<n;j++) {
+		f(a,j,n);
+	} 
+} 
