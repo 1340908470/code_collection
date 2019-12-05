@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdbool.h> 
+
+int n,m;
+
+bool is(int arr[][m],int i,int j,int n,int m) {		//i,j为所选元素的行,列	n,m为矩阵的行,列 
+	for (int a=0;a<n;a++) {
+		if (arr[a][j]<arr[i][j]) {
+			return false;
+		}
+	}
+	for (int a=0;a<m;a++) {
+		if (arr[i][a]>arr[i][j]) {
+			return false;
+		}
+	}
+	return true; 
+}
+
+int main() {
+	scanf("%d%d",&n,&m);
+	int arr[n][m];
+	for (int i=0;i<n;i++) {
+		for (int j=0;j<m;j++) {
+			scanf("%d",&arr[i][j]);
+		}
+	}
+	int w = 0;
+	for (int i=0;i<n;i++) {
+		for (int j=0;j<m;j++) {
+			if (is(arr,i,j,n,m)) {
+				printf("The saddle point is (%d,%d)=%d.",i,j,arr[i][j]);
+				w++;
+				break;
+			}
+		}
+	}
+	if (w==0) {
+		printf("There is no saddle point in the matrix.");
+	} 
+}
