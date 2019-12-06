@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isD(int i) {
+	if (i%2==0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+int f(int i,int j) {		//计算矩阵i行j列的斜行 
+	return (i+j-1); 
+}
+
+int h(int i) {				//计算i斜行的首元素 
+	return (0.5*i*(i+1)); 
+} 
+
+int g(int i,int j) {		//计算矩阵的i行j列的元素 
+	if (isD(f(i,j))) {
+		return (h(f(i,j))-i+1);
+	} else {
+		return (h(f(i,j))-j+1);
+	}
+}
+
+int main() {
+	int n;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++) {
+		for (int j=0;j<n-1;j++) {
+			printf("%d ",g(i+1,j+1));
+		}
+		printf("%d\n",g(i+1,n)); 
+	}
+} 
