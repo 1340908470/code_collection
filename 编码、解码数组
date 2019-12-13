@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+void swap(int *a,int *b) {
+    int tem = *a;
+    *a = *b;
+    *b = tem;
+}
+
+void f(int *arr,int n,int i) {
+    for (int j = i; j < n-1; ++j) {
+        swap(&arr[j],&arr[j+1]);
+    }
+}
+
+int main() {
+    int n, flag;
+    scanf("%d%d", &n, &flag);
+    int a[n];
+    for (int i = 0; i < n; ++i) {
+        a[i] = 0; 
+    }
+    int b[n];
+    for (int i = 0; i < n; ++i) {
+        b[i] = 0;
+    }
+    switch (flag) {
+        case 1:     //已知a
+            for (int i = 0; i < n; ++i) {
+                scanf("%d", &a[i]);
+            }
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < i; ++j) {
+                    if (a[j]<a[i]) {
+                        b[i]++;
+                    }
+                }
+            }
+            for (int i = 0; i < n-1; ++i) {
+                printf("%d ",b[i]);
+            }
+            printf("%d",b[n-1]);
+            break;
+        case 2:     //已知b
+            for (int i = 0; i < n; ++i) {
+                scanf("%d", &b[i]);
+            }
+            int tem[n];
+            for (int i = 0; i < n; ++i) {
+                tem[i] = i;
+            }
+            for (int k = n-1; k >= 0; --k) {
+                a[k] = tem[b[k]];
+                f(tem,n,b[k]);
+            }
+            for (int i = 0; i < n-1; ++i) {
+                printf("%d ",a[i]);
+            }
+            printf("%d",a[n-1]);
+            break;
+    }
+
+}
