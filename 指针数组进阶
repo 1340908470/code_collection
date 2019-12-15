@@ -1,3 +1,5 @@
+//1.静态指针数组
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +19,40 @@ int main() {
         scanf("%[^\n]%*c", arr);
         start[i] = arr;
         arr += strlen(arr)+1;
+    }
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (i<j && strcmp(start[i],start[j])>0) {
+                swap(&start[i],&start[j]);
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        printf("%s\n",start[i]);
+    }
+}
+
+//2.动态指针数组
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+void swap(char **a, char **b) {
+    char *tem = *a;
+    *a = *b;
+    *b = tem;
+}
+
+int main() {
+    int n;
+    scanf("%d%*c",&n);
+    char *arr = malloc(sizeof(char)*1000*n);
+    char *start[n];
+    for (int i=0;i<n;i++) {
+        start[i] = arr;
+        scanf("%[^\n]%*c",arr);
+        arr += strlen(arr) + 1;
     }
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
