@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <string.h>
+
+struct country {
+    char name[20];
+    int score[4];
+};
+
+void swap(char *a, char *b) {
+    char tem[20];
+    strcpy(tem, a);
+    strcpy(a, b);
+    strcpy(b, tem);
+}
+
+void swap2(int *a,int *b) {
+    int tem = *a;
+    *a = *b;
+    *b = tem;
+}
+
+int main() {
+    struct country country[4];
+    for (int i = 0; i < 4; ++i) {
+        country[i].score[3] = 0;
+        scanf("%s%d%d%d", country[i].name, &country[i].score[0], &country[i].score[1], &country[i].score[2]);
+    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (country[i].score[2] > country[j].score[2]) {
+                country[i].score[3] += 100;
+            }
+            if ((country[i].score[0] - country[i].score[1]) > (country[j].score[0] - country[j].score[1])) {
+                country[i].score[3] += 10;
+            }
+            if (country[i].score[0] > country[j].score[0]) {
+                country[i].score[3] += 1;
+            }
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (i < j && country[i].score[3] < country[j].score[3]) {
+                swap(country[i].name, country[j].name);
+                swap2(&country[i].score[3],&country[j].score[3]);
+            }
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        printf("%s\n", country[i].name);
+    }
+}
