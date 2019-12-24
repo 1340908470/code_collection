@@ -1,0 +1,145 @@
+#include <stdio.h>
+#include <string.h>
+
+struct student{
+   char name[11];
+   char id[11];
+   int mathScore;
+   int englishScore;
+   int computerScore;
+};
+
+typedef struct student student;
+
+student students[1000];
+
+int num = 0;
+
+int add(char id[],char name[],int mathScore,int englishScore,int computerScore) {
+   for (int i=0;i<num;i++) {
+      if (strcmp(students[i].id,id)==0) {
+         return 0;
+      }
+   }
+   strcpy(students[num].name,name);
+   strcpy(students[num].id,id);
+   students[num].mathScore = mathScore;
+   students[num].englishScore = englishScore;
+   students[num].computerScore = computerScore;
+   return 1;
+}
+
+int delete(char id[]) {
+   int tem = -1;
+   for (int i=0;i<num;i++) {
+      if (strcmp(students[i].id,id)==0) {
+         tem = i;
+         break;
+      }
+   }
+   if (tem==-1) {
+      return 0;
+   } else {
+      for (int i=tem;i<num-1;i++) {
+         students[i] = students[i+1];
+      }
+      strcpy(students[num-1].name,"");
+      strcpy(students[num-1].id,"");
+      students[num-1].mathScore = 0;
+      students[num-1].englishScore = 0;
+      students[num-1].computerScore = 0;
+      return 1;
+   }
+
+}
+
+int change(char id[],int mathScore,int englishScore,int computerScore) {
+   int tem = -1;
+   for (int i=0;i<num;i++) {
+      if (strcmp(students[i].id,id)==0) {
+         tem = i;
+         break;
+      }
+   }
+   if (tem==-1) {
+      return 0;
+   } else {
+      students[tem].mathScore = mathScore;
+      students[tem].englishScore = englishScore;
+      students[tem].computerScore = computerScore;
+      return 1;
+   }
+}
+
+void show(char id[]) {
+   int tem = -1;
+   for (int i=0;i<num;i++) {
+      if (strcmp(students[i].id,id)==0) {
+         tem = i;
+         break;
+      }
+   }
+   if (tem==-1) {
+      printf("Students do not exist\n");
+   } else {
+      printf("Student ID:%s\n",students[tem].id);
+      printf("Name:%s\n",students[tem].name);
+      printf("Average Score:%.1lf\n",((double)(students[tem].mathScore+students[tem].englishScore+students[tem].computerScore)/3));
+   }
+}
+
+int main() {
+   int n;
+   scanf("%d%*c",&n);
+   for (int i=0;i<n;i++) {
+      int function;
+      scanf("%d",&function);
+      switch(function) {
+         case 1:{
+            char name[11];
+            char id[11];
+            int mathScore;
+            int englishScore;
+            int computerScore;
+            scanf("%s%s%d%d%d%*c",id,name,&mathScore,&englishScore,&computerScore);
+            if (add(id,name,mathScore,englishScore,computerScore)) {
+               num++;
+               printf("Add success\n");
+            } else {
+               printf("Students already exist\n");
+            }
+            break;
+         }
+         case 2:{
+            char id[11];
+            scanf("%s%*c",id);
+            if (delete(id)) {
+               num--;
+               printf("Delete success\n");
+            } else {
+               printf("Students do not exist\n");
+            }
+            break;
+         }
+         case 3:{
+            char id[11];
+            int mathScore;
+            int englishScore;
+            int computerScore;
+            scanf("%s%d%d%d%*c",id,&mathScore,&englishScore,&computerScore);
+            if (change(id,mathScore,englishScore,computerScore)) {
+               printf("Update success\n");
+            } else {
+               printf("Students do not exist\n");
+            }
+            break;
+         }
+         case 4:{
+            char id[11];
+            scanf("%s%*c",id);
+            show(id);
+            break;
+         }
+      }
+   }
+}
