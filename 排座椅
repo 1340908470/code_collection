@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <string.h>
+#define min(a,b) (a>b?b:a)
+
+void swap(int *a,int *b) {
+    int tem = *a;
+    *a = *b;
+    *b = tem;
+}
+
+int main() {
+    int m,n,k,l,d;
+    scanf("%d%d%d%d%d",&m,&n,&k,&l,&d);
+    //座位m行n列
+    //通道k行l列
+    //一共有d对学生说话
+    int x[m];   //x[i]表示第i行和i+1行可以划分几对
+    memset(x,0, sizeof(x));
+    int tx[m];  //tx用于储存x的下标
+    int y[n];   //y[i]表示第i列和i+1列可以划分几对
+    memset(y,0, sizeof(y));
+    int ty[n];  //ty用于储存y的下标
+    for (int i = 0; i < m; ++i) {
+        tx[i]=i;
+    }
+    for (int i = 0; i < n; ++i) {
+        ty[i]=i;
+    }
+    for (int i = 0; i < d; ++i) {
+        int x1,y1,x2,y2;
+        scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+        if (x1==x2) {
+            y[min(y1,y2)-1]++;
+        }
+        if (y1==y2) {
+            x[min(x1,x2)-1]++;
+        }
+    }
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < m; ++j) {
+            if (i<j && x[i]<x[j]) {
+                swap(&x[i],&x[j]);
+                swap(&tx[i],&tx[j]);
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (i<j && y[i]<y[j]) {
+                swap(&y[i],&y[j]);
+                swap(&ty[i],&ty[j]);
+            }
+        }
+    }
+    for (int i = 0; i < k; ++i) {
+        for (int j = 0; j < k; ++j) {
+            if (i<j && tx[i]>tx[j]) {
+                swap(&tx[i],&tx[j]);
+            }
+        }
+    }
+    for (int i = 0; i < l; ++i) {
+        for (int j = 0; j < l; ++j) {
+            if (i<j && ty[i]>ty[j]) {
+                swap(&ty[i],&ty[j]);
+            }
+        }
+    }
+    for (int i = 0; i < k-1; ++i) {
+        printf("%d ", tx[i]+1);
+    }
+    printf("%d\n",tx[k-1]+1);
+    for (int i = 0; i < l-1; ++i) {
+        printf("%d ",ty[i]+1);
+    }
+    printf("%d",ty[l-1]+1);
+}
