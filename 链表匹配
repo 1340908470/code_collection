@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node* creatList();
+int getLength(struct node* headNode);
+int judge(struct node* A, struct node* B, int BLen);
+
+struct node{
+    int data;
+    struct node* nextPoint;
+};
+
+int main() {
+    struct node* AList = creatList();
+    struct node* BList = creatList();
+    struct node* A = AList->nextPoint;
+    struct node* B = BList->nextPoint;
+    int ALen = getLength(AList);
+    int BLen = getLength(BList);
+    int ans = 0;
+    for (int i = 0; i <= ALen-BLen; ++i) {
+        ans = judge(A,B,BLen);
+        if (ans == 1) {
+            break;
+        }
+        A = A->nextPoint;
+    }
+    if (ans == 1) {
+        printf("ListB is the sub sequence of ListA.");
+    } else {
+        printf("ListB is not the sub sequence of ListA.");
+    }
+}
+
+struct node* creatList() {
+    struct node* headNode = malloc(sizeof(struct node*));
+    struct node* lastNode = headNode;
+    int n;
+    scanf("%d",&n);
+    while (n != -1) {
+        struct node* currentNode = malloc(sizeof(struct node*));
+        currentNode->data = n;
+        lastNode->nextPoint = currentNode;
+        lastNode = lastNode->nextPoint;
+        scanf("%d",&n);
+    }
+    lastNode->nextPoint = NULL;
+    return headNode;
+}
+
+int getLength(struct node* headNode) {
+    int len = 1;
+    struct node* temNode = headNode->nextPoint;
+    while (temNode->nextPoint != NULL) {
+        len++;
+        temNode = temNode->nextPoint;
+    }
+    return len;
+}
+
+int judge(struct node* A, struct node* B, int BLen) {
+    int ans = 1;
+    for (int i = 0; i < BLen; ++i) {
+        if (A->data != B->data) {
+            ans = 0;
+            break;
+        }
+        if (A->nextPoint == NULL && i < BLen-1) {
+            ans = 0;
+            break;
+        }
+        A = A->nextPoint;
+        B = B->nextPoint;
+    }
+    return ans;
+}
