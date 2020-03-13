@@ -1,0 +1,151 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node* creatList();
+void insertNode(struct node* lastNode, struct node* aimNode);
+void deleteNode(struct node* lastNode);
+
+struct node{
+    int data;
+    struct node* nextPoint;
+};
+
+int main() {
+    struct node* A = creatList();
+    struct node* B = creatList();
+
+    struct node* ip = A;
+    struct node* jp = B;
+
+    while (1) {
+        //ip,jp起始都为头指针
+        if (ip->nextPoint == NULL && jp->nextPoint!=NULL) {
+            ip->nextPoint = jp->nextPoint;
+            jp->nextPoint = NULL;
+            break;
+        }
+        if (jp->nextPoint == NULL) {
+            break;
+        }
+        struct node* aimNode1 = ip->nextPoint;
+        struct node* aimNode2 = jp->nextPoint;
+        //aimNode为要对比的节点
+        if (aimNode2->nextPoint == NULL) {
+            if (aimNode2->data < aimNode1->data) {
+                deleteNode(jp);
+                insertNode(ip,aimNode2);
+                break;
+            }
+            while (1) {
+                if (aimNode1->data < aimNode2->data && aimNode1->nextPoint != NULL && aimNode1->nextPoint->data < aimNode2->data) {
+                    aimNode1 = aimNode1->nextPoint;
+                } else {
+                    break;
+                }
+            }
+            if (aimNode2->data > aimNode1->data && aimNode1->nextPoint == NULL) {
+                aimNode1 ->nextPoint = aimNode2;
+                jp->nextPoint = NULL;
+                break;
+            }
+            if (aimNode1->nextPoint != NULL) {
+                if (aimNode2->data > aimNode1->data && aimNode2->data < aimNode1->nextPoint->data) {
+                    deleteNode(jp);
+                    insertNode(aimNode1, aimNode2);
+                    continue;
+                }
+                if (aimNode2->data >= aimNode1->nextPoint->data) {
+                    ip = ip->nextPoint;
+                    continue;
+                }
+            }
+        }
+        //2要插1前面
+        if (aimNode2->data < aimNode1->data) {
+            deleteNode(jp);
+            insertNode(ip,aimNode2);
+
+            continue;
+        }
+        //2,1相等,2后移
+        if (aimNode1->data == aimNode2->data) {
+            jp = jp->nextPoint;
+            continue;
+        }
+        //2要插在1后面
+        if (aimNode2->data > aimNode1->data && aimNode1->nextPoint == NULL) {
+            aimNode1 ->nextPoint = aimNode2;
+            jp->nextPoint = NULL;
+            break;
+        }
+        if (aimNode1->nextPoint != NULL) {
+            if (aimNode2->data > aimNode1->data && aimNode2->data < aimNode1->nextPoint->data) {
+                deleteNode(jp);
+                insertNode(aimNode1, aimNode2);
+                continue;
+            }
+            if (aimNode2->data >= aimNode1->nextPoint->data) {
+                ip = ip->nextPoint;
+                continue;
+            }
+        }
+        //1后移
+
+    }
+    if (A->nextPoint==NULL) {
+        printf("There is no item in A list.\n");
+    } else {
+        printf("The new list A:");
+        while (A->nextPoint->nextPoint!=NULL) {
+            A = A->nextPoint;
+            printf("%d ",A->data);
+        }
+        printf("%d\n",A->nextPoint->data);
+    }
+
+    if (B->nextPoint==NULL) {
+        printf("There is no item in B list.\n");
+    } else {
+        printf("The new list B:");
+        while (B->nextPoint->nextPoint!=NULL) {
+            B = B->nextPoint;
+            printf("%d ",B->data);
+        }
+        printf("%d\n",B->nextPoint->data);
+    }
+
+}
+
+struct node* creatList(){
+    struct node* headNode = malloc(sizeof(struct node*));
+    struct node* lastNode = headNode;
+    int n;
+    scanf("%d",&n);
+    while (n!=-1){
+        struct node* currentNode = malloc(sizeof(struct node*));
+        currentNode->data = n;
+        lastNode->nextPoint = currentNode;
+        lastNode = lastNode->nextPoint;
+        scanf("%d",&n);
+    }
+    lastNode->nextPoint = NULL;
+    return headNode;
+}
+
+void insertNode(struct node* lastNode, struct node* aimNode){
+    if (lastNode->nextPoint == NULL) {
+        lastNode->nextPoint = aimNode;
+        aimNode->nextPoint = NULL;
+    }
+    struct node* nextNode = lastNode->nextPoint;
+    lastNode->nextPoint = aimNode;
+    aimNode->nextPoint = nextNode;
+}
+
+void deleteNode(struct node* lastNode){
+    if (lastNode->nextPoint->nextPoint==NULL) {
+        lastNode->nextPoint =NULL;
+    } else {
+        lastNode->nextPoint = lastNode->nextPoint->nextPoint;
+    }
+}
