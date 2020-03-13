@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node* creatList();
+struct node* addNode(struct node* lastNode, struct node* aimNode);
+void printList(struct node* headNode, char n);
+struct node* getNode(struct node* headNode, int n);
+void sort(struct node* headNode, int len);
+
+int aLen=0, bLen=0, cLen=0;
+
+struct node{
+    char data[3];
+    struct node* nextPoint;
+};
+
+
+int main() {
+    struct node* L = creatList();
+    struct node* temNode = L->nextPoint;
+
+    struct node* A = malloc(sizeof(struct node*));
+    struct node* B = malloc(sizeof(struct node*));
+    struct node* C = malloc(sizeof(struct node*));
+
+    struct node* a = A;
+    struct node* b = B;
+    struct node* c = C;
+
+    a->nextPoint = NULL;
+    b->nextPoint = NULL;
+    c->nextPoint = NULL;
+
+    while (temNode != NULL) {
+        char data = temNode->data[0];
+        if ((data >= 'a' && data <= 'z') || (data >= 'A' && data <= 'Z')) {
+            temNode = addNode(a, temNode);
+            aLen++;
+            a = a->nextPoint;
+        } else if (data >= '0' && data <= '9') {
+            temNode = addNode(b, temNode);
+            bLen++;
+            b = b->nextPoint;
+        } else {
+            temNode = addNode(c, temNode);
+            cLen++;
+            c = c->nextPoint;
+        }
+    }
+
+    sort(A, aLen);
+    sort(B, bLen);
+    sort(C, cLen);
+
+    printList(A, 'A');
+    printList(B, 'B');
+    printList(C, 'C');
+
+}
+
+struct node* creatList() {
+    char n[3];
+    scanf("%s",n);
+    char end[] = "-1";
+    struct node* headNode = malloc(sizeof(struct node*));
+    struct node* lastNode = headNode;
+
+    while (strcmp(n,end) != 0) {
+        struct node* currentNode = malloc(sizeof(struct node*));
+        strcpy(currentNode->data, n);
+        lastNode->nextPoint = currentNode;
+        lastNode = lastNode->nextPoint;
+        scanf("%s",n);
+    }
+
+    lastNode->nextPoint = NULL;
+    return headNode;
+}
+
+struct node* addNode(struct node* lastNode, struct node* aimNode) {
+    struct node* temNode = aimNode->nextPoint;
+    lastNode->nextPoint = aimNode;
+    lastNode->nextPoint->nextPoint =NULL;
+    return temNode;
+}
+
+void printList(struct node* headNode, char n) {
+    struct node* temNode = headNode;
+    if (temNode->nextPoint == NULL) {
+        printf("There is no item in %c list.\n", n);
+        return;
+    }
+    temNode = temNode->nextPoint;
+    printf("The list %c is: ",n);
+    while (temNode->nextPoint != NULL) {
+        printf("%s ",temNode->data);
+        temNode = temNode->nextPoint;
+    }
+    printf("%s\n",temNode->data);
+}
+
+struct node* getNode(struct node* headNode, int n) {
+    struct node* temNode = headNode;
+    for (int i = 0; i <= n; ++i) {
+        temNode = temNode->nextPoint;
+    }
+    return temNode;
+}
+
+void sort(struct node* headNode, int len) {
+    for (int i = 0; i < len; ++i) {
+        for (int j = 0; j < len; ++j) {
+            if (i<j && strcmp(getNode(headNode, i)->data,getNode(headNode, j)->data)>0) {
+                char tem[3];
+                strcpy(tem, getNode(headNode, i)->data);
+                strcpy(getNode(headNode, i)->data, getNode(headNode, j)->data);
+                strcpy(getNode(headNode, j)->data, tem);
+            }
+        }
+    }
+}
