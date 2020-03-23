@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <string.h>
+
+void task1(FILE *file);
+void task2(FILE *file);
+void task3(FILE *file);
+
+int main() {
+    int task;
+    scanf("%d",&task);
+    char fileName[] = "dict.dic";
+    FILE *file = fopen(fileName, "r");
+    rewind(file);
+    switch (task) {
+        case 1:task1(file);
+            break;
+        case 2:task2(file);
+            break;
+        case 3:task3(file);
+            break;
+        default:
+            break;
+    }
+    fclose(file);
+}
+
+void task1(FILE *file) {
+    int capital = 0;
+    int lowercase = 0;
+    int digit = 0;
+    int others = 0;
+    char c;
+    while ((c=(char)fgetc(file))!=EOF) {
+        if (c>='A' && c<='Z') {
+            capital++;
+            continue;
+        }
+        if (c>='a' && c<='z') {
+            lowercase++;
+            continue;
+        }
+        if (c>='0' && c<='9') {
+            digit++;
+            continue;
+        }
+        others++;
+    }
+    printf("Task1:\n"
+           "capital: %d\n"
+           "lowercase: %d\n"
+           "digit: %d\n"
+           "others: %d",capital,lowercase,digit,others);
+}
+
+void task2(FILE *file) {
+    int line = 0;
+    int lineCount = 0;
+    int maxLine = 0;
+    int minLine = 0;
+    char c;
+    while ((c=(char)fgetc(file))!=EOF) {
+        if (c=='\n') {
+            if (line==0) {
+                maxLine = lineCount;
+                minLine = lineCount;
+            }
+            maxLine = maxLine>lineCount?maxLine:lineCount;
+            minLine = minLine<lineCount?minLine:lineCount;
+            lineCount = 0;
+            line++;
+        } else {
+            lineCount++;
+        }
+    }
+    if (line==0) {
+        maxLine = lineCount;
+        minLine = lineCount;
+    }
+    maxLine = maxLine>lineCount?maxLine:lineCount;
+    minLine = minLine<lineCount?minLine:lineCount;
+    line++;
+    printf("Task2:\n"
+           "line: %d\n"
+           "%d characters in max line.\n"
+           "%d characters in min line.",line,maxLine,minLine);
+}
+
+void task3(FILE *file) {
+    printf("Task3:\n");
+    int capitalCount[26];
+    int lowerCount[26];
+    memset(capitalCount,0, sizeof(capitalCount));
+    memset(lowerCount,0, sizeof(lowerCount));
+    char c;
+    while ((c=(char)fgetc(file))!=EOF) {
+        if (c>='A' && c<='Z') {
+            capitalCount[c-'A']++;
+        }
+        if (c>='a' && c<='z') {
+            lowerCount[c-'a']++;
+        }
+    }
+    printf("CAPITAL:\n");
+    for (int i = 0; i < 26; ++i) {
+        if (capitalCount[i]!=0) {
+            printf("%c:%d\n",'A'+i,capitalCount[i]);
+        }
+    }
+    printf("LOWERCASE:\n");
+    for (int i = 0; i < 25; ++i) {
+        if (lowerCount[i]!=0) {
+            printf("%c:%d\n",'a'+i,lowerCount[i]);
+        }
+    }
+    if (capitalCount[25]!=0) {
+        printf("%c:%d",'a'+25,lowerCount[25]);
+    }
+}
