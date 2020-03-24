@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int main() {
+    char a,aa[5];
+    short b,bb[5];
+    int c,cc[5];
+    long d,dd[5];
+    long long e,ee[5];
+    float g,gg[5];
+    double h,hh[5];
+    int i ;
+    scanf("%d",&i);
+    FILE *fp=fopen("dict.dic","rb");
+    rewind(fp);
+    int T = sizeof(a) + sizeof(aa) + sizeof(b) + sizeof(bb) + sizeof(c) + sizeof(cc) + sizeof(d) + sizeof(dd) + sizeof(e) +sizeof(ee) + sizeof(g) + sizeof(gg) + sizeof(h) +sizeof(hh);
+    fseek(fp,T*(i-1),SEEK_CUR);
+    fread(&a,sizeof(a),1,fp);
+    fread(&b,sizeof(b),1,fp);
+    fread(&c,sizeof(c),1,fp);
+    fread(&d,sizeof(d),1,fp);
+    fread(&e,sizeof(e),1,fp);
+    fread(&g,sizeof(g),1,fp);
+    fread(&h,sizeof(h),1,fp);
+    fread(aa,sizeof(a),5,fp);
+    fread(bb,sizeof(b),5,fp);
+    fread(cc,sizeof(c),5,fp);
+    fread(dd,sizeof(d),5,fp);
+    fread(ee,sizeof(e),5,fp);
+    fread(gg,sizeof(g),5,fp);
+    fread(hh,sizeof(h),5,fp);
+    printf("%c\n%hd\n%d\n%ld\n%lld\n%f\n%lf\n",a,b,c,d,e,g,h);
+    for (int j = 0; j < 5; ++j) {
+        if (aa[j]!='\0') {
+            printf("%c",aa[j]);
+        }
+    }
+    printf("\n");
+    for (int j = 0; j < 4; ++j) {
+        printf("%hd ",bb[j]);
+    }
+    printf("%hd\n",bb[4]);
+
+    for (int j = 0; j < 4; ++j) {
+        printf("%d ",cc[j]);
+    }
+    printf("%d\n",cc[4]);
+
+    for (int j = 0; j < 4; ++j) {
+        printf("%ld ",dd[j]);
+    }
+    printf("%ld\n",dd[4]);
+
+    for (int j = 0; j < 4; ++j) {
+        printf("%lld ",ee[j]);
+    }
+    printf("%lld\n",ee[4]);
+
+    for (int j = 0; j < 4; ++j) {
+        printf("%f ",gg[j]);
+    }
+    printf("%f\n",gg[4]);
+
+    for (int j = 0; j < 4; ++j) {
+        printf("%lf ",hh[j]);
+    }
+    printf("%lf\n",hh[4]);
+}
