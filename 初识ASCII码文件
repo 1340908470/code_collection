@@ -112,7 +112,7 @@ void task3(FILE *file) {
             printf("%c:%d\n",'a'+i,lowerCount[i]);
         }
     }
-    if (capitalCount[25]!=0) {
+    if (lowerCount[25]!=0) {
         printf("%c:%d",'a'+25,lowerCount[25]);
     }
 }
