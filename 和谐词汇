@@ -1,0 +1,155 @@
+#include <stdio.h>
+#include <string.h>
+
+void clearBuffer(char buffer[]);
+void clearLine(int line[]);
+int isEmptyLine(const int line[]);
+void compare(char c, int index, int line[], char vocabulary[][11]);
+int isEnd(const int line[], char vocabulary[][11], int index);
+void shiftLeft(char buffer[]);
+
+int main() {
+    FILE *file = fopen("dict.dic","r");
+    char buffer[11];
+    char shield[] = "!@#$%^&*";
+    int line[10];
+    int statement = 0;  //0:没有一个匹配的 >0:有至少一个匹配的
+    char c;
+    int index = 0;
+    int num = 0;
+    clearBuffer(buffer);
+    clearLine(line);
+    char vocabulary[10][11];
+    rewind(file);
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 11; ++j) {
+            c=(char)fgetc(file);
+            if ((c!='\n') && (c!=EOF)) {
+                vocabulary[i][j] = c;
+            } else {
+                vocabulary[i][j] = '\0';
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < 10; ++i) {
+        if (vocabulary[i][0]=='\0') {
+            num = i;
+            break;
+        }
+    }
+    if (num==0) {
+        num = 10;
+    }
+    while ((c=(char)getchar())!=EOF) {
+        /*
+         * 1.将c放入buffer的index位
+         * 2.将c与词库的index位的字母比较, 并用line记录词库中与c相同的行
+         * 3.若line中仍有1,即c与词库中仍有匹配的,判断词库对应单词index位的下一位是否为'\0',若是则替换为shield输出,并重置index,line[],buffer,否则index++,录入下一个字母
+         * 4.若line中全为0,即c与词库中没有匹配的,则将buffer中的缓存输出,并重置index,line[],buffer,若buffer中元素数目大于等于2,则将第一个元素删除,将其他元素向前移动一位,重复直到删完
+        */
+        //1
+        buffer[index] = c;
+        //2
+        compare(c,index,line,vocabulary);
+        //3,4
+        if (isEmptyLine(line)) {
+            if (index==0) {
+                printf("%s",buffer);
+                clearLine(line);
+                clearBuffer(buffer);
+                index = 0;
+            } else {
+                while (index!=0) {
+                    index--;
+                    printf("%c",buffer[0]);
+                    shiftLeft(buffer);
+                    for (int i = 0; i < strlen(buffer); ++i) {
+                        compare(buffer[i],i,line,vocabulary);
+                    }
+                    if (!isEmptyLine(line)) {
+                        if (isEnd(line,vocabulary,index)) {
+                            printf("%s",shield);
+                            clearLine(line);
+                            clearBuffer(buffer);
+                            index = 0;
+                        } else {
+                            index++;
+                        }
+                        break;
+                    } else if (index==0){
+                        printf("%c",buffer[0]);
+                    }
+                }
+            }
+        } else {
+            if (isEnd(line,vocabulary,index)) {
+                printf("%s",shield);
+                clearLine(line);
+                clearBuffer(buffer);
+                index = 0;
+            } else {
+                index++;
+            }
+        }
+    }
+    printf("%s",buffer);
+}
+
+int isEnd(const int line[], char vocabulary[][11], int index) {
+    for (int i = 0; i < 10; ++i) {
+        if (line[i]!=0) {
+            if (vocabulary[i][index+1]=='\0') {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+void shiftLeft(char buffer[]) {
+    for (int i = 0; i < 9; ++i) {
+        buffer[i] = buffer[i+1];
+    }
+}
+
+int isEmptyLine(const int line[]) {
+    for (int i = 0; i < 10; ++i) {
+        if (line[i] != 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void compare(char c, int index, int line[], char vocabulary[][11]) {
+    if (index == 0) {
+        for (int i = 0; i < 10; ++i) {
+            if (c == vocabulary[i][0]) {
+                line[i] = 1;
+            } else {
+                line[i] = 0;
+            }
+        }
+    } else {
+        for (int i = 0; i < 10; ++i) {
+            if (c == vocabulary[i][index] && line[i]!=0) {
+                line[i] = 1;
+            } else {
+                line[i] = 0;
+            }
+        }
+    }
+}
+
+void clearBuffer(char buffer[]) {
+    for (int i = 0; i < 10; ++i) {
+        buffer[i] = '\0';
+    }
+}
+
+void clearLine(int line[]) {
+    for (int i = 0; i < 10; ++i) {
+        line[i] = 0;
+    }
+}
